@@ -10,7 +10,9 @@ use App\Http\Resources\BannerDetailResource;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\BlogAndNewsResource;
 use App\Http\Resources\BrendResource;
+use App\Http\Resources\FaqResource;
 use App\Http\Resources\ImportantLinkResource;
+use App\Http\Resources\OurOnMapResource;
 use App\Http\Resources\Products\CategoryResource;
 use App\Http\Resources\Products\ProductResource;
 use App\Http\Resources\SocialLinkResource;
@@ -20,7 +22,9 @@ use App\Models\Banner;
 use App\Models\BlogNew;
 use App\Models\Brend;
 use App\Models\Category;
+use App\Models\ContactApply;
 use App\Models\EducationalRegion;
+use App\Models\Faq;
 use App\Models\ImportantLink;
 use App\Models\Language;
 use App\Models\Partner;
@@ -30,12 +34,13 @@ use App\Models\SiteSetting;
 use App\Models\SocialLink;
 use App\Models\Textbook;
 use Illuminate\Http\Request;
-
+use App\Models\OurOnMap;
+use DB;
 class HomeController extends Controller
 {
 
 
-     private function getTranslatedSlugs($item): array
+    private function getTranslatedSlugs($item): array
     {
         $languages = Language::pluck('code')->toArray();
 
@@ -68,51 +73,105 @@ class HomeController extends Controller
     }
 
 
-    public function importantLinks(){
+    public function importantLinks()
+    {
         $importantLinks = ImportantLink::status()->order()->get();
         return ImportantLinkResource::collection($importantLinks);
     }
 
 
-    public function educationalregions(){
+    public function educationalregions()
+    {
         $educationalRegions = EducationalRegion::status()->order()->get();
         return ImportantLinkResource::collection($educationalRegions);
     }
 
-    public function partners(){
+    public function partners()
+    {
         $partners = Partner::status()->order()->get();
         return ImportantLinkResource::collection($partners);
     }
 
 
-    public function textbooks(){
+    public function textbooks()
+    {
         $textBooks = Textbook::status()->order()->limit(2)->get();
         $siteSetting = SiteSetting::first();
 
         return response()->json([
-            "data"=>$textBooks->map(function($item){
+            "data" => $textBooks->map(function ($item) {
                 return [
-                    "id"=>$item->id,
-                    "title"=>$item->title,
-                    "subtitle"=>$item->subtitle,
-                    "image"=>url('storage/'.$item->image),
-                    'slug'=>$this->getTranslatedSlugs($item)
+                    "id" => $item->id,
+                    "title" => $item->title,
+                    "subtitle" => $item->subtitle,
+                    "image" => url('storage/' . $item->image),
+                    'slug' => $this->getTranslatedSlugs($item)
                 ];
             }),
-            "whatsapp_textbook_number"=>$siteSetting->whatsapp_textbook_number
+            "whatsapp_textbook_number" => $siteSetting->whatsapp_textbook_number
         ]);
         return TextBookResource::collection($textBooks);
     }
 
-    public function advertisements(){
+    public function advertisements()
+    {
         $advertisements = Advertisement::status()->order()->limit(2)->get();
         return AdvertisementResource::collection($advertisements);
     }
 
-     public function blogs(){
+    public function blogs()
+    {
         $blogs = BlogNew::status()->order()->limit(value: 4)->get();
         return BlogAndNewsResource::collection($blogs);
     }
 
-    
+
+    public function getContact()
+    {
+        try {
+            $item = OurOnMap::first();
+            if(is_null($item)){
+                return $this->responseMessage('error', 'Data tapılmadı ', null, 404, null);
+            }
+            return new OurOnMapResource($item);
+        } catch (\Exception $e) {
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
+
+
+    public function contact(Request $request){
+        $this->validate($request,[
+            'name'=>'required',
+            'phone'=>'required',
+            'note'=>'required'
+        ]);
+        try{
+            DB::beginTransaction();
+            $contact=ContactApply::create([
+                "name"=>$request->name,
+                "phone"=>$request->phone,
+                "note"=>$request->note,
+            ]);
+            DB::commit();
+            return $this->responseMessage('success', 'Uğurla əlavə olundu', $contact, 200, null);            
+        }catch (\Exception $e) {
+            DB::rollBack();
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
+
+
+    public function getFaqs(Request $request){
+         try{
+            $items = Faq::status()->order()->get();
+            $data = $items->values()->map(function ($faq, $key) {
+                return new FaqResource($faq, $key + 1);
+            });
+            return $data;
+        }catch (\Exception $e) {
+          
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
 }

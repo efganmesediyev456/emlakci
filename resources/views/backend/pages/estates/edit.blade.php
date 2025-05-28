@@ -209,10 +209,10 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label for="total_floors" class="form-label">Şəhər</label>
-                            <select  name="country_id" class="form-select" id="city_id">
+                            <select  name="city_id" class="form-select" id="city_id">
                                 <option>Seçin</option>
                                 @foreach($cities as $city)
-                                    <option @selected($item->country_id == $city->id) value="{{ $city->id }}">{{$city->title}}</option>
+                                    <option @selected($item->city_id == $city->id) value="{{ $city->id }}">{{$city->title}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -265,7 +265,7 @@
                 </div>
 
                 <div class="row mt-4">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="">Şəkil</label>
                             <input type="file" name="image" class="form-control">
@@ -275,7 +275,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="">Əmlak növü</label>
                             <select name="type_estate_id" class="form-control form-select">
@@ -287,7 +287,25 @@
                         </div>
                     </div>
 
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="">Satış növləri</label>
+                            <select name="type_purchase_id" class="form-control form-select">
+                                <option value="">Seçin</option>
+                                @foreach($type_purchases as $type)
+                                    <option @selected($type->id == $item->type_purchase_id) value="{{ $type->id }}">{{$type->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                    
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="">Xəritə</label>
+                            <input type="text" name="map" class="form-control" value="{{ $item->map }}">
+                        </div>
+                    </div>
 
                 </div>
 

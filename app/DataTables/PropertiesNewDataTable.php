@@ -23,20 +23,21 @@ class PropertiesNewDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
                 return '
-                <div class="btn-group">
-                    <a href="' . route('admin.properties.edit', $row->id) . '" class="btn btn-sm btn-primary">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <form action="' . route('admin.properties.destroy', $row->id) . '" method="POST" style="margin-left:5px;">
-                        ' . csrf_field() . '
-                        ' . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-sm btn-danger delete-btn">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-                ';
-            })->addColumn("title", fn($row)=>$row->title)
+    <div class="btn-group">
+        <a href="' . route('admin.properties.edit', $row->id) . '" class="btn btn-sm btn-primary">
+            <i class="fas fa-edit"></i>
+        </a>
+        <form action="' . route('admin.properties.destroy', $row->id) . '" method="POST" style="margin-left:5px;" onsubmit="return confirm(\'Silmək istədiyinizə əminsiniz?\')">
+            ' . csrf_field() . '
+            ' . method_field('DELETE') . '
+            <button type="submit" class="btn btn-sm btn-danger delete-btn">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+    </div>
+    ';
+            })
+            ->addColumn("title", fn($row) => $row->title)
             ->rawColumns(['action'])
             ->setRowId('id');
     }

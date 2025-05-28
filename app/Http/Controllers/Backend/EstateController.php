@@ -9,6 +9,7 @@ use App\Models\Country;
 use App\Models\EstateMedia;
 use App\Models\Property;
 use App\Models\TypeEstate;
+use App\Models\TypePurchase;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,10 +35,11 @@ class EstateController extends Controller
 
     public function create()
     {
+        $type_purchases=TypePurchase::get();
         $type_estates = TypeEstate::get();
         $countries=Country::get();
         $properties = Property::get();
-        return view('backend.pages.estates.create', compact('type_estates','countries','properties'));
+        return view('backend.pages.estates.create', compact('type_estates','countries','properties', 'type_purchases'));
     }
 
     public function store(EstateSaveRequest $request)
@@ -84,7 +86,8 @@ class EstateController extends Controller
         $countries=Country::get();
         $cities = $item->country->cities;
         $properties=Property::get();
-        return view('backend.pages.estates.edit', compact('item', 'type_estates', 'countries', 'cities', 'properties'));
+        $type_purchases=TypePurchase::get();
+        return view('backend.pages.estates.edit', compact('item', 'type_estates', 'countries', 'cities', 'properties','type_purchases'));
     }
 
     public function update(EstateSaveRequest $request, Estate $item)

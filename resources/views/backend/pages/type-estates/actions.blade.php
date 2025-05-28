@@ -5,7 +5,7 @@
     <form method="POST" action="{{ $deleteRoute }}" class="d-inline delete-form">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger delete-btn">
+        <button onclick="return confirm('Silmək istədiyinizə əminsiniz?')" type="submit" class="btn btn-sm btn-danger delete-btn">
             <i class="fa fa-trash"></i>
         </button>
     </form>

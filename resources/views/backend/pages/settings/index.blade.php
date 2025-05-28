@@ -17,51 +17,7 @@
                 <form action="{{ route('admin.settings.update', $item->id) }}" method="POST" id="saveForm"
                     enctype="multipart/form-data">
                     @method('PUT')
-
-                    {{-- <ul class="nav nav-tabs" id="languageTabs" role="tablist">
-
-                    @foreach ($languages as $language)
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link @if ($loop->iteration == 1) active @endif" id="{{$language->code}}-tab" data-bs-toggle="tab" data-bs-target="#{{$language->code}}" type="button"
-                            role="tab" aria-controls="{{$language->code}}" aria-selected="true">{{$language->title}}
-                        </button>
-                    </li>
-                    @endforeach
-                </ul> --}}
-
-                    {{-- <div class="tab-content mt-3" id="languageTabsContent">
-                    @foreach ($languages as $language) --}}
-                    {{-- <div class="tab-pane fade show @if ($loop->iteration == 1) active @endif" id="{{$language->code}}"
-                        role="tabpanel" aria-labelledby="{{$language->code}}-tab">
-
-                        <div class="mb-3">
-                            <label for="header_offer" class="form-label">Xidmətlər Whatsapp Əlaqə {{$language->code}}</label>
-                            <input type="text" class="form-control" name="header_offer[{{$language->code}}]"
-                                id="header_offer[{{ $language->code }}]"
-                                placeholder="Daxil edin"
-                                value="{{$item->translate($language->code)?->header_offer}}">
-                        </div>
-
-                    </div> --}}
-                    {{-- @endforeach
-                </div> --}}
-
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="header_logo" class="form-label">Xidmətlər vatsapa gedəcək nömrə</label>
-                                <input type="text" name="service_whatsapp_number" class="form-control"
-                                    value="{{ $item->service_whatsapp_number }}">
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="header_logo" class="form-label">Dərsliklər sifariş vatsapa gedəcək nömrə</label>
-                                <input type="text" name="whatsapp_textbook_number" class="form-control"
-                                    value="{{ $item->whatsapp_textbook_number }}">
-                            </div>
-                        </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="header_logo" class="form-label">Header Logo</label>
@@ -100,58 +56,10 @@
 
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="header_site_icon1" class="form-label">Header site icon1</label>
-                                <input type="file" name="header_site_icon1" class="form-control">
-                                @if ($item->header_site_icon1)
-                                    <img width="64" src="{{ '/storage/' . $item->header_site_icon1 }}" alt="Favicon">
-                                @endif
+                                <label for="whatsapp_number" class="form-label">Whatsapp nömrəsi</label>
+                                <input type="text" name="whatsapp_number" class="form-control" value="{{ $item->whatsapp_number }}">
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="header_site_icon1" class="form-label">Header site url1</label>
-                                <input type="text" name="header_site_url1"
-                                    class="form-control"value="{{ $item->header_site_url1 }}">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="header_site_icon2" class="form-label">Header site icon2</label>
-                                <input type="file" name="header_site_icon2" class="form-control">
-                                @if ($item->header_site_icon2)
-                                    <img width="64" src="{{ '/storage/' . $item->header_site_icon2 }}" alt="Favicon">
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="header_site_icon2" class="form-label">Header site url2</label>
-                                <input type="text" name="header_site_url2"
-                                    class="form-control"value="{{ $item->header_site_url2 }}">
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="header_site_icon2" class="form-label">Header site icon3</label>
-                                <input type="file" name="header_site_icon3" class="form-control">
-                                @if ($item->header_site_icon3)
-                                    <img width="64" src="{{ '/storage/' . $item->header_site_icon3 }}" alt="Favicon">
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="header_site_icon3" class="form-label">Header site url3</label>
-                                <input type="text" name="header_site_url3"
-                                    class="form-control"value="{{ $item->header_site_url3 }}">
-                            </div>
-                        </div>
-
                     </div>
 
                     <div class="row mt-2">

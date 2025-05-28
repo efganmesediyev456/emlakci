@@ -38,9 +38,20 @@ class Estate extends BaseModel
         return $this->belongsTo(Country::class);
     }
 
+     public function city(){
+        return $this->belongsTo(City::class);
+    }
+
 
     public function properties(){
         return $this->belongsToMany(Property::class,'estate_properties');
+    }
+
+    public function typeEstate(){
+        return $this->belongsTo(TypeEstate::class, 'type_estate_id');
+    }
+    public function typePurchase(){
+        return $this->belongsTo(TypePurchase::class, 'type_purchase_id');
     }
 }
 

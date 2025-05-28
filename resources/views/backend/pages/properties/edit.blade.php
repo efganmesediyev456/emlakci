@@ -1,7 +1,6 @@
 @extends('backend.layouts.layout')
 
 @section('content')
-
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -13,41 +12,47 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{route('admin.properties.update', $item->id)}}" method="POST" id="saveForm" enctype="multipart/form-data">
+                <form action="{{ route('admin.properties.update', $item->id) }}" method="POST" id="saveForm"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
                     <ul class="nav nav-tabs" id="languageTabs" role="tablist">
-                        @foreach($languages as $language)
+                        @foreach ($languages as $language)
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link @if($loop->first) active @endif"
-                                        id="{{$language->code}}-tab"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#{{$language->code}}"
-                                        type="button" role="tab"
-                                        aria-controls="{{$language->code}}"
-                                        aria-selected="true">
-                                    {{$language->title}}
+                                <button class="nav-link @if ($loop->first) active @endif"
+                                    id="{{ $language->code }}-tab" data-bs-toggle="tab"
+                                    data-bs-target="#{{ $language->code }}" type="button" role="tab"
+                                    aria-controls="{{ $language->code }}" aria-selected="true">
+                                    {{ $language->title }}
                                 </button>
                             </li>
                         @endforeach
                     </ul>
 
                     <div class="tab-content mt-3" id="languageTabsContent">
-                        @foreach($languages as $language)
-                            <div class="tab-pane fade show @if($loop->first) active @endif"
-                                 id="{{$language->code}}" role="tabpanel"
-                                 aria-labelledby="{{$language->code}}-tab">
+                        @foreach ($languages as $language)
+                            <div class="tab-pane fade show @if ($loop->first) active @endif"
+                                id="{{ $language->code }}" role="tabpanel" aria-labelledby="{{ $language->code }}-tab">
 
                                 <div class="mb-3">
-                                    <label for="title_{{$language->code}}" class="form-label">Ad ({{$language->code}})</label>
-                                    <input type="text" class="form-control"
-                                           name="title[{{$language->code}}]"
-                                           id="title_{{$language->code}}"
-                                           placeholder="Ad daxil edin" value="{{ $item->getTranslation('title',$language->code) }}">
+                                    <label for="title_{{ $language->code }}" class="form-label">Ad
+                                        ({{ $language->code }})</label>
+                                    <input type="text" class="form-control" name="title[{{ $language->code }}]"
+                                        id="title_{{ $language->code }}" placeholder="Ad daxil edin"
+                                        value="{{ $item->translate($language->code)?->title }}">
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="">Şəkil</label>
+                                <input type="file" name="icon" class="form-control">
+                                <img width="300" src="/storage/{{ $item->icon }}" alt="">
+                            </div>
+                        </div>
                     </div>
                     <div class="row mt-2">
                         <div class="d-flex justify-content-end">
@@ -63,5 +68,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -56,6 +56,16 @@
                     @endforeach
                 </div>
 
+                 <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="">Şəkil</label>
+                            <input type="file" name="icon" class="form-control">
+                            <img width="300" src="/storage/{{$item->icon}}" alt="">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row mt-2">
                     <div class="d-flex justify-content-end">
                         <div class="form-group">

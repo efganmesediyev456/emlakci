@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LangTranslation extends BaseModel
+class LangTranslation extends Model
 {
     use HasFactory;
     public $casts = [

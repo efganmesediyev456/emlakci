@@ -101,6 +101,14 @@
                     </a>
                 </li>
 
+
+                 <li>
+                    <a href="{{ route('admin.estates.index') }}" class="waves-effect">
+                        <i class="bx bx-slider-alt"></i>
+                        <span key="t-properties">Əmlaklar</span>
+                    </a>
+                </li>
+
               
 
 

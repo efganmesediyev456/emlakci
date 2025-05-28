@@ -18,9 +18,4 @@ class AboutController extends Controller
     public function index(){
         return new AboutResource(About::first());
     }
-
-
-    public function exam(){
-                return new ExamBannerResource(ExamBanner::first());
-    }
 }

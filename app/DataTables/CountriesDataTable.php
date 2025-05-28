@@ -34,7 +34,14 @@ class CountriesDataTable extends DataTable
                     <input class="form-check-input status-switch" type="checkbox" data-id="'.$item->id.'" '.$checked.'>
                 </div>';
             })
-            ->rawColumns(['action', 'status'])
+
+            ->addColumn('footerStatus', function($item) {
+                $checked = $item->footer_show ? 'checked' : '';
+                return '<div class="form-check form-switch">
+                    <input class="form-check-input status-footer_show" type="checkbox" data-id="'.$item->id.'" '.$checked.'>
+                </div>';
+            })
+            ->rawColumns(['action', 'status', 'footerStatus'])
             ->setRowId('id');
     }
 
@@ -131,6 +138,43 @@ class CountriesDataTable extends DataTable
                             }
                         });
                     });
+
+
+
+                    $(document).on('change', '.status-footer_show', function() {
+                        var id = $(this).data('id');
+                        var status = $(this).prop('checked') ? 1 : 0;
+                        $.ajax({
+                            url: '".route('admin.countries.footerStatusChange')."',
+                            type: 'POST',
+                            data: {
+                                _token: $('meta[name=\"csrf-token\"]').attr('content'),
+                                id: id,
+                                status: status,
+                                model:'".addslashes(Country::class)."'
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Uğurlu!',
+                                    text: response.message,
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Xəta!',
+                                    text: 'Status yenilənmədi'
+                                });
+                                
+                                // Revert switch to original state if there's an error
+                                $(this).prop('checked', !status);
+                            }
+                        });
+                    });
+
                 }",
             ])->buttons(
                 Button::make('excel')->text('Excel-ə ixrac et'),
@@ -151,6 +195,13 @@ class CountriesDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
+
+            Column::make('footerStatus')->title('Footerdə göstər')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
+
             Column::make('created_at')->title('Tarix'),
             Column::computed('action')->title('Əməliyyatlar')
                 ->exportable(false)

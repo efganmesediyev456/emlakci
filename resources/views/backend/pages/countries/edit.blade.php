@@ -56,6 +56,25 @@
                     @endforeach
                 </div>
 
+
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="">Şəkil</label>
+                                <input type="file" name="icon" class="form-control">
+                            </div>
+                            <img src="/storage/{{ $item->icon }}" width="150" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="">Telefon nömrəsi</label>
+                                <input type="text" name="number" class="form-control" value="{{ $item->number }}">
+                            </div>
+                        </div>
+                    </div>
+
+
                 <div class="row mt-2">
                     <div class="d-flex justify-content-end">
                         <div class="form-group">

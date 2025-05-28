@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\TypeEstatesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\TypeEstate;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Backend\TypeEstateSaveRequest;
+use App\Helpers\FileUploadHelper;
+
 
 class TypeEstateController extends Controller
 {
@@ -33,6 +34,11 @@ class TypeEstateController extends Controller
             $item = new TypeEstate();
             DB::beginTransaction();
             $data = $request->except('_token', '_method');
+
+            if ($request->hasFile('icon')) {
+                $data['icon'] = FileUploadHelper::uploadFile($request->file('icon'), "type_estates", 'type_estates_' . uniqid());
+            }
+
             $item = $this->mainService->save($item, $data);
             $this->mainService->createTranslations($item, $request);
             DB::commit();
@@ -53,6 +59,9 @@ class TypeEstateController extends Controller
         try {
             DB::beginTransaction();
             $data = $request->except('_token', '_method');
+            if ($request->hasFile('icon')) {
+                $data['icon'] = FileUploadHelper::uploadFile($request->file('icon'), "type_estates", 'type_estates_' . uniqid());
+            }
             $item = $this->mainService->save($item, $data);
             $this->mainService->createTranslations($item, $request);
             DB::commit();

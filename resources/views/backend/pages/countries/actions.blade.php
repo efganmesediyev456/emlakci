@@ -2,7 +2,7 @@
     <a href="{{ $editRoute }}" class="btn btn-sm btn-primary me-1">
         <i class="fa fa-edit"></i>
     </a>
-    <form method="POST" action="{{ $deleteRoute }}" class="d-inline delete-form">
+    <form method="POST" action="{{ $deleteRoute }}" class="d-inline delete-form" onclick="return confirm('Silmək üçün əminsiniz?')">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn btn-sm btn-danger delete-btn">

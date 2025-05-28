@@ -20,13 +20,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(AdminSeeder::class);
-        $this->call(LanguageSeeder::class);
-        $this->call(AboutSeeder::class);
-        $this->call(TermsAndConditionSeeder::class);
-        $this->call(CategorySeeder::class);
+        // $this->call(AdminSeeder::class);
+        // $this->call(LanguageSeeder::class);
+        // $this->call(AboutSeeder::class);
+        // $this->call(TermsAndConditionSeeder::class);
+        // $this->call(CategorySeeder::class);
         // Textbook::factory(count: 100)->create();
-        // BlogNew::factory(count: 100)->create();
+        BlogNew::factory(count: 100)->create();
         // GalleryPhoto::factory(100)->create();
         // GalleryVideo::factory(100)->create();
         // Advertisement::factory(100)->create();

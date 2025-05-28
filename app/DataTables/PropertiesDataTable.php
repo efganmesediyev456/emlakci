@@ -30,7 +30,7 @@ class PropertiesDataTable extends DataTable
             ->addColumn('action', function ($item) {
                 $html = '<div class="d-flex gap-1">';
                 $edit = '<a href="' . route('admin.products.properties_old.edit', ['id' => $item->product_id, 'item_id' => $item->id]) . '" class="btn  btn-sm fs-5"><i class="fas fa-edit"></i></a>';
-                $delete = '<form action="' . route('admin.products.properties_old.destroy', ['id' => $item->product_id, 'item_id' => $item->id]) . '" method="POST" class="delete-form">
+                $delete = '<form action="' . route('admin.products.properties_old.destroy', ['id' => $item->product_id, 'item_id' => $item->id]) . '" method="POST" class="delete-form" onsubmit="return confirm(\'Silmək istədiyinizə əminsiniz?\')">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="btn btn-sm fs-5 text-danger delete-btn"><i class="fas fa-trash"></i></button>

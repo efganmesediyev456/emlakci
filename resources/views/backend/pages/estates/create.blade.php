@@ -205,8 +205,9 @@
                             </select>
                         </div>
                     </div>
+
+                    
                    
-                </div>
 
                 <!-- Features checkboxes -->
                 <div class="row">
@@ -249,13 +250,13 @@
                 </div>
 
                 <div class="row mt-4">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="">Şəkil</label>
                             <input type="file" name="image" class="form-control">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label for="">Əmlak növü</label>
                             <select name="type_estate_id" class="form-control form-select">
@@ -266,6 +267,26 @@
                             </select>
                         </div>
                     </div>
+
+                     <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="">Satış növləri</label>
+                            <select name="type_purchase_id" class="form-control form-select">
+                                <option value="">Seçin</option>
+                                @foreach($type_purchases as $type)
+                                    <option  value="{{ $type->id }}">{{$type->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="">Xəritə</label>
+                            <input type="text" name="map" class="form-control" value="" placeholder="Xəritə daxil edin">
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="row">

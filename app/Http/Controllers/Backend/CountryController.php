@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\DataTables\CountriesDataTable;
+use App\Helpers\FileUploadHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -33,6 +34,11 @@ class CountryController extends Controller
             $item = new Country();
             DB::beginTransaction();
             $data = $request->except('_token', '_method');
+
+            if ($request->hasFile('icon')) {
+                $data['icon'] = FileUploadHelper::uploadFile($request->file('icon'), "countries", 'countries_' . uniqid());
+            }
+
             $item = $this->mainService->save($item, $data);
             $this->mainService->createTranslations($item, $request);
             DB::commit();
@@ -53,6 +59,9 @@ class CountryController extends Controller
         try {
             DB::beginTransaction();
             $data = $request->except('_token', '_method');
+            if ($request->hasFile('icon')) {
+                $data['icon'] = FileUploadHelper::uploadFile($request->file('icon'), "countries", 'countries_' . uniqid());
+            }
             $item = $this->mainService->save($item, $data);
             $this->mainService->createTranslations($item, $request);
             DB::commit();
@@ -73,6 +82,25 @@ class CountryController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             return $this->responseMessage('error', $exception->getMessage(), [], 500);
+        }
+    }
+
+    public function footerStatusChange(Request $request){
+         try {
+            $model = app($request->model);
+            $model = $model::findOrFail($request->id);
+            $model->footer_show = $request->status;
+            $model->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Footerdə göstər uğurla yeniləndi!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Xəta baş verdi: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

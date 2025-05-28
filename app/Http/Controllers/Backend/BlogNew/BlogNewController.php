@@ -3,28 +3,12 @@
 namespace App\Http\Controllers\Backend\BlogNew;
 
 use App\DataTables\BlogNewsDataTable;
-use App\DataTables\CertificatesDataTable;
-use App\DataTables\LanguagesDataTable;
-use App\DataTables\ProductsDataTable;
-use App\DataTables\TeamsDataTable;
-use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\About;
 use App\Models\BlogNewMedia;
-use App\Models\Certificate;
-use App\Models\Language;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Lang;
-use Yajra\DataTables\EloquentDataTable;
 use App\Helpers\FileUploadHelper;
 use App\Http\Requests\Backend\BlogNew\BlogNewSaveRequest;
-use App\Http\Requests\Backend\Products\ProductSaveRequest;
 use App\Models\BlogNew;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\Team;
 
 class BlogNewController extends Controller
 {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\About\AboutController;
+use App\Http\Controllers\Api\AdvantageController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\PasswordResetController;
 use App\Http\Controllers\Api\CatalogApiController;
@@ -43,9 +44,10 @@ use App\Http\Controllers\Api\SiteSettingController;
 use App\Http\Controllers\Api\FreeOnlineLessonsController;
 use App\Http\Controllers\Api\TextBookBannerController;
 use App\Http\Controllers\Api\UserExamResultsController;
-
-
-
+use App\Http\Controllers\Api\MortgageApiController;
+use App\Http\Controllers\Api\ContactInfoController;
+use App\Http\Controllers\Api\EstateController;
+use App\Http\Controllers\Api\FilterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,7 +98,6 @@ Route::get('/product/{slug}', [ProductController::class, 'product']);
 Route::get('/catalogs', [CatalogApiController::class,'index']);
 Route::get('/vacancies', [VacancyApiController::class,'index']);
 Route::get('/vacancy-receipents', [VacancyApiController::class,'vacancyReceipents']);
-Route::get('/share-links', [VacancyApiController::class,'vacancyShareLinks']);
 Route::get('/vacancies/{slug}', [VacancyApiController::class,'single']);
 Route::get('/our-on-map', [OurOnMapController::class,'index']);
 Route::get('/pages/{slug}', [StaticPageController::class,'index']);
@@ -165,10 +166,6 @@ Route::get('/order/status', [\App\Http\Controllers\Api\StripeController::class, 
 
 
 
-Route::get('/blog-and-news', [BlogAndNewsController::class,'index']);
-Route::get('/blog-and-news/{slug}', [BlogAndNewsController::class,'single']);
-Route::get('/blog-and-other-news', [BlogAndNewsController::class,'others']);
-Route::get('/all-blog-and-news', [BlogAndNewsController::class,'getAllBlogs']);
 
 
 Route::get('/gallery-photos', [GalleryController::class,'getAllPhotos']);
@@ -200,7 +197,6 @@ Route::get('/partners', [HomeController::class, 'partners']);
 Route::get('/home-textbooks', [HomeController::class, 'textbooks']);
 Route::get('/home-advertisements', [HomeController::class, 'advertisements']);
 Route::get('/home-blog-and-news', [HomeController::class, 'blogs']);
-
 
 Route::get('/terms-and-conditions', [TermsAndConditionController::class, 'index']);
 
@@ -236,7 +232,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user/subscriptions', [SubScriptionController::class, 'index']);
 });
 
-Route::get('/site-settings', [SiteSettingController::class, 'index']);
 Route::post('/website-likes', [WebsiteLikeController::class, 'store']);
 
 // Route::get('/category/{slug}', [CategoryController::class, 'category']);
@@ -245,3 +240,32 @@ Route::post('/website-likes', [WebsiteLikeController::class, 'store']);
 
 
 
+
+
+
+
+//emlak
+
+//blog and news
+Route::get('/blog-and-news', [BlogAndNewsController::class,'index']);
+Route::get('/blog-and-news/{slug}', [BlogAndNewsController::class,'single']);
+Route::get('/blog-and-other-news', [BlogAndNewsController::class,'others']);
+Route::get('/all-blog-and-news', [BlogAndNewsController::class,'getAllBlogs']);
+Route::get('/share-links', [VacancyApiController::class,'vacancyShareLinks']);
+
+
+//contact
+Route::get('/contact', [HomeController::class, 'getContact']);
+Route::post('/contact', [HomeController::class, 'contact']);
+Route::post('/faqs', [HomeController::class, 'getFaqs']);
+Route::post('/faqs', [AboutController::class, 'index']);
+Route::get('/advantages', [AdvantageController::class, 'index']);
+
+Route::post('/mortgage/calculate', [MortgageApiController::class, 'calculate']);
+Route::get('/site-settings', [SiteSettingController::class, 'index']);
+Route::get('/contact-infos', [ContactInfoController::class, 'index']);
+Route::get('/estates', [EstateController::class, 'index']);
+
+
+Route::get('/type-purchases', [FilterController::class, 'typePurchases']);
+Route::get('/type-estates', [FilterController::class, 'typeEstates']);

@@ -73,9 +73,7 @@ use App\Http\Controllers\Backend\HomeBannerController;
 use App\Http\Controllers\Backend\TypeEstateController;
 use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\CityController;
-
-
-
+use App\Http\Controllers\Backend\ContactApplyController;
 
 
 
@@ -689,6 +687,7 @@ Route::middleware("auth:admin")->group(function () {
         Route::get('/{item}/edit', [CountryController::class, 'edit'])->name('.edit');
         Route::put('/{item}/update', [CountryController::class, 'update'])->name('.update');
         Route::delete('/{item}', [CountryController::class, 'delete'])->name('.destroy');
+        Route::post('/footer-status', [CountryController::class, 'footerStatusChange'])->name('.footerStatusChange');
     });
 
 
@@ -709,6 +708,12 @@ Route::middleware("auth:admin")->group(function () {
         Route::put('/{item}/update', [EstateController::class, 'update'])->name('.update');
         Route::delete('/{item}', [EstateController::class, 'delete'])->name('.destroy');
         Route::post('cities', [EstateController::class,'getCities'])->name(".cities");
+    });
+
+
+     Route::group(['prefix' => 'contact-applies', 'as' => '.contactapplies'], function () {
+        Route::get('/', [ContactApplyController::class, 'index'])->name('.index');
+        Route::delete('/{item}', [ContactApplyController::class, 'delete'])->name('.destroy');
     });
 });
 

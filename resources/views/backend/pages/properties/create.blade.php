@@ -50,6 +50,15 @@
                         @endforeach
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="">İkon</label>
+                                <input type="file" name="icon" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row mt-2">
                         <div class="d-flex justify-content-end">
                             <div class="form-group">
