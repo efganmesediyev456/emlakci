@@ -32,3 +32,11 @@
 [28-May-2025 07:22:12 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
 [28-May-2025 07:35:46 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
 [28-May-2025 07:39:07 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
+[29-May-2025 06:28:51 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
+[29-May-2025 06:29:15 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
+[29-May-2025 10:29:15 Asia/Baku] PHP Fatal error:  Cannot use positional argument after named argument in /home/e126846/public_html/emlakci.avtoicare.az/database/migrations/2025_05_29_102220_create_purchase_forms_table.php on line 29
+[29-May-2025 06:29:33 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
+[29-May-2025 06:58:08 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
+[29-May-2025 06:58:26 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
+[29-May-2025 07:00:21 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0
+[29-May-2025 07:19:21 UTC] PHP Warning:  Module "memcached" is already loaded in Unknown on line 0

@@ -1,0 +1,1 @@
+[29-May-2025 10:33:00 Asia/Baku] PHP Fatal error:  Cannot declare class App\Http\Controllers\Api\AdvertisementController, because the name is already in use in /home/e126846/public_html/emlakci.avtoicare.az/app/Http/Controllers/Api/ApplyController.php on line 9

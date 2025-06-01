@@ -8,6 +8,7 @@ use App\Http\Resources\CatalogCollection;
 use App\Http\Resources\CatalogResource;
 use App\Http\Resources\GalleryResource;
 use App\Models\Catalog;
+use App\Models\Country;
 use App\Models\GalleryPhoto;
 use App\Models\GalleryVideo;
 use App\Models\TypeEstate;
@@ -29,12 +30,10 @@ class FilterController extends Controller
             return [
                 'id'=>$e->id,
                 'title'=>$e->title,
-                'icon'=>url('storage/'.$e->icon)
+                'icon'=>$e->icon ? url('storage/'.$e->icon) : null
             ];
         });
-
-        return $typePurchases;
-       
+        return $this->responseMessage('success', 'Uğurlu əməliyyat ', $typePurchases, 200, null);
     }
 
 
@@ -48,8 +47,38 @@ class FilterController extends Controller
             ];
         });
 
-        return $typeEstates;
+        return $this->responseMessage('success', 'Uğurlu əməliyyat ', $typeEstates, 200, null);
        
     }
 
+    public function countries(Request $request)
+    {
+        $countries = Country::where('status',1)->orderBy('id','desc')->get()->map(function($e){
+            return [
+                'id'=>$e->id,
+                'title'=>$e->title,
+                'icon'=>url('storage/'.$e->icon)
+            ];
+        });
+        return $this->responseMessage('success', 'Uğurlu əməliyyat ', $countries, 200, null);
+    }
+     public function cities(Request $request, $id)
+    {
+       try{
+            $item = Country::find($id);
+            if(is_null($item)){
+                return $this->responseMessage('error', 'Data tapılmadı ', null, 404, null);
+            }
+            $cities = $item->cities?->sortByDesc('id')->map(function($e){
+                return [
+                    'id'=>$e->id,
+                    'title'=>$e->title,
+                    'icon'=>url('storage/'.$e->icon)
+                ];
+            });
+            return $this->responseMessage('success', 'Uğurlu əməliyyat ', $cities, 200, null);
+        }catch (\Exception $e) {
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
 }

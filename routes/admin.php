@@ -715,6 +715,17 @@ Route::middleware("auth:admin")->group(function () {
         Route::get('/', [ContactApplyController::class, 'index'])->name('.index');
         Route::delete('/{item}', [ContactApplyController::class, 'delete'])->name('.destroy');
     });
+
+
+    Route::group(['prefix' => 'cities', 'as' => '.cities'], function () {
+        Route::get('/', [ApplyController::class, 'index'])->name('.index');
+        Route::get('/create', [ApplyController::class, 'create'])->name('.create');
+        Route::post('/store', [ApplyController::class, 'store'])->name('.store');
+        Route::get('/{item}/edit', [ApplyController::class, 'edit'])->name('.edit');
+        Route::put('/{item}/update', [ApplyController::class, 'update'])->name('.update');
+        Route::delete('/{item}', [ApplyController::class, 'delete'])->name('.destroy');
+    });
+
 });
 
 

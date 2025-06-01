@@ -78,6 +78,7 @@ class ExamsController extends Controller
                 "answer_id" => array_key_exists("answer_id", $answer) ? $answer['answer_id'] : null
             ]);
         }
+        
 
         $correctOptionsCount = UserExam::where('user_id', $this->user->id)
             ->where('exam_id', $item->id)->whereHas("examQuestionOption", function ($qq) {
