@@ -174,4 +174,16 @@ class HomeController extends Controller
             return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
         }
     }
+
+    public function getBannerDetails(Request $request){
+        try{
+            $items = Faq::status()->order()->get();
+            $data = $items->values()->map(function ($faq, $key) {
+                return new FaqResource($faq, $key + 1);
+            });
+            return $data;
+        }catch (\Exception $e) {
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
 }

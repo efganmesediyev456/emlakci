@@ -17,38 +17,14 @@ class BannerDetailController extends Controller
         $this->mainService->model = BannerDetail::class;
     }
 
-    public function index(BannerDetailsDataTable $dataTable)
+    public function index()
     {
-        return $dataTable->render('backend.pages.banner_details.index');
-    }
-
-    public function create(){
-        return view('backend.pages.banner_details.create');
-    }
-
-    public function store(Request $request){
-        try {
-            $item = new BannerDetail();
-            DB::beginTransaction();
-            $data = $request->except('_token','_method');
-            
-            // Handle icon upload
-            if ($request->hasFile('icon')) {
-                $data['icon'] = FileUploadHelper::uploadFile($request->file('icon'), 'banner_details');
-            }
-            
-            $item = $this->mainService->save($item, $data);
-            $this->mainService->createTranslations($item, $request);
-            DB::commit();
-            return $this->responseMessage('success', 'Uğurla yaradıldı', [], 200, route('admin.banner_details.index'));
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            return $this->responseMessage('error', $exception->getMessage(), [], 500);
+        $item = BannerDetail::first();
+        if(is_null($item)){
+            $item = BannerDetail::create([
+            ]);
         }
-    }
-
-    public function edit(BannerDetail $item){
-        return view('backend.pages.banner_details.edit', compact('item'));
+        return view('backend.pages.banner_details.index', compact('item'));
     }
 
     public function update(Request $request, BannerDetail $item){
@@ -56,17 +32,22 @@ class BannerDetailController extends Controller
             DB::beginTransaction();
             $data = $request->except('_token','_method');
             
-            // Handle icon upload
-            if ($request->hasFile('icon')) {
-                // Delete old icon if exists
-                if ($item->icon) {
-                    FileUploadHelper::deleteFile($item->icon);
+            if ($request->hasFile('image1')) {
+                if ($item->image1) {
+                    FileUploadHelper::deleteFile($item->image1);
                 }
-                $data['icon'] = FileUploadHelper::uploadFile($request->file('icon'), 'banner_details');
+                $data['image1'] = FileUploadHelper::uploadFile($request->file('image1'), 'banner_details', 'banner_'.uniqid() );
+            }
+
+            if ($request->hasFile('image2')) {
+                if ($item->image2) {
+                    FileUploadHelper::deleteFile($item->image2);
+                }
+                $data['image2'] = FileUploadHelper::uploadFile($request->file('image2'), 'banner_details', 'banner_'.uniqid() );
             }
             
             $item = $this->mainService->save($item, $data);
-            $this->mainService->createTranslations($item, $request);
+            // $this->mainService->createTranslations($item, $request);
             DB::commit();
             return $this->responseMessage('success', 'Uğurla dəyişdirildi', [], 200, route('admin.banner_details.index'));
         } catch (\Exception $exception) {

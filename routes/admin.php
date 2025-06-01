@@ -247,11 +247,7 @@ Route::middleware("auth:admin")->group(function () {
 
     Route::group(['prefix' => 'banner-details', 'as' => '.banner_details'], function () {
         Route::get('/', [BannerDetailController::class, 'index'])->name('.index');
-        Route::get('/create', [BannerDetailController::class, 'create'])->name('.create');
-        Route::post('/store', [BannerDetailController::class, 'store'])->name('.store');
-        Route::get('/{item}/edit', [BannerDetailController::class, 'edit'])->name('.edit');
         Route::put('/{item}/update', [BannerDetailController::class, 'update'])->name('.update');
-        Route::delete('/{item}', [BannerDetailController::class, 'delete'])->name('.destroy');
     });
 
    

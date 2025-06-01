@@ -107,7 +107,6 @@ Route::get('/brends', [HomeController::class,'getBrends']);
 Route::get('/properties', [PropertyController::class,'index']);
 Route::get('/banners', [HomeController::class,'getBanners']);
 Route::get('/weekly-offers', [HomeController::class,'getWeeklyOffers']);
-Route::get('/banner-details', [HomeController::class,'getBannerDetails']);
 Route::get('/discounted-products', [HomeController::class,'getDiscountedProducts']);
 Route::get('/social-links', [HomeController::class,'getSocialLinks']);
 Route::post('/vacancy/apply', [VacancyApiController::class,'apply']);
@@ -266,6 +265,8 @@ Route::get('/site-settings', [SiteSettingController::class, 'index']);
 Route::get('/contact-infos', [ContactInfoController::class, 'index']);
 Route::get('/estates', [EstateController::class, 'index']);
 
-
 Route::get('/type-purchases', [FilterController::class, 'typePurchases']);
 Route::get('/type-estates', [FilterController::class, 'typeEstates']);
+Route::get('/countries', [FilterController::class, 'countries']);
+Route::get('/country/{country}/cities/', [FilterController::class, 'cities']);
+Route::get('/banner-details', [HomeController::class,'getBannerDetails']);
