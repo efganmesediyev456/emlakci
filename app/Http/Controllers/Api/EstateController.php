@@ -43,6 +43,10 @@ class EstateController extends Controller
         if ($request->has('max_price')) {
             $query->where('price', '<=', $request->max_price);
         }
+
+        if ($request->has('is_vip')) {
+            $query->where('is_vip', $request->is_vip);
+        }
         
         if ($request->has('price_range')) {
             $priceRange = explode('-', $request->price_range);
@@ -240,6 +244,13 @@ class EstateController extends Controller
         if ($request->has('updated_to')) {
             $query->where('updated_at', '<=', $request->updated_to);
         }
+
+        
+         if (request()->has('foreign') && request('foreign')!='') {
+            $query->whereHas('country',function($qq){
+                $qq->where('foreign', request('foreign'));
+            });
+        }
         
         // Search in translated attributes (title, description, address, etc.)
         if ($request->has('search')) {
@@ -283,6 +294,10 @@ class EstateController extends Controller
             $includeIds = is_array($request->include_ids) ? $request->include_ids : explode(',', $request->include_ids);
             $query->whereIn('id', $includeIds);
         }
+
+
+
+     
 
     }
     

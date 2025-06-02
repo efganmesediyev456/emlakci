@@ -74,7 +74,8 @@ use App\Http\Controllers\Backend\TypeEstateController;
 use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\CityController;
 use App\Http\Controllers\Backend\ContactApplyController;
-
+use App\Http\Controllers\Backend\HomeBannerDetailController;
+use App\Http\Controllers\Backend\EventBannerController;
 
 
 Route::get("/login", [LoginController::class, 'login'])->name('.login');
@@ -711,6 +712,28 @@ Route::middleware("auth:admin")->group(function () {
         Route::get('/', [ContactApplyController::class, 'index'])->name('.index');
         Route::delete('/{item}', [ContactApplyController::class, 'delete'])->name('.destroy');
     });
+
+
+    Route::group(['prefix' => 'cities', 'as' => '.cities'], function () {
+        Route::get('/', [ApplyController::class, 'index'])->name('.index');
+        Route::get('/create', [ApplyController::class, 'create'])->name('.create');
+        Route::post('/store', [ApplyController::class, 'store'])->name('.store');
+        Route::get('/{item}/edit', [ApplyController::class, 'edit'])->name('.edit');
+        Route::put('/{item}/update', [ApplyController::class, 'update'])->name('.update');
+        Route::delete('/{item}', [ApplyController::class, 'delete'])->name('.destroy');
+    });
+
+
+    Route::group(['prefix' => 'home-banner-detail', 'as' => '.home_banner_detail'], function () {
+        Route::get('/', [HomeBannerDetailController::class, 'index'])->name('.index');
+        Route::put('/{item}/update', [HomeBannerDetailController::class, 'update'])->name('.update');
+    });
+
+    Route::group(['prefix' => 'event-banner', 'as' => '.event_banner'], function () {
+        Route::get('/', [EventBannerController::class, 'index'])->name('.index');
+        Route::put('/{item}/update', [EventBannerController::class, 'update'])->name('.update');
+    });
+
 });
 
 

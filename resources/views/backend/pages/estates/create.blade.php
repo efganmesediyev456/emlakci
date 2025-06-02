@@ -221,6 +221,15 @@
                                 </div>
                             </div>
 
+                            
+                              <div class="col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_vip" value="1" id="is_vip">
+                                    <label class="form-check-label" for="is_vip">Vip</label>
+                                </div>
+                            </div>
+
+
                              <div class="col-md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="has_extract" value="1" id="has_extract">

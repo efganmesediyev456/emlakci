@@ -8,6 +8,7 @@ use App\Http\Resources\CatalogCollection;
 use App\Http\Resources\CatalogResource;
 use App\Http\Resources\GalleryResource;
 use App\Models\Catalog;
+use App\Models\Country;
 use App\Models\GalleryPhoto;
 use App\Models\GalleryVideo;
 use App\Models\TypeEstate;
@@ -30,10 +31,11 @@ class FilterController extends Controller
             return [
                 'id'=>$e->id,
                 'title'=>$e->title,
-                'icon'=>url('storage/'.$e->icon)
+                'icon'=>$e->icon ? url('storage/'.$e->icon) : null
             ];
         });
-        return $this->responseMessage('success', 'Uğurlu əməliyyat', $typePurchases, 404, null);
+
+        return $this->responseMessage('success', 'Uğurlu əməliyyat ', $typePurchases, 200, null);
     }
 
 
@@ -59,33 +61,25 @@ class FilterController extends Controller
                 'icon'=>url('storage/'.$e->icon)
             ];
         });
-
-         return $this->responseMessage('success', 'Uğurlu əməliyyat', $countries, 404, null);
-       
+        return $this->responseMessage('success', 'Uğurlu əməliyyat ', $countries, 200, null);
     }
-
-
-    
-     public function cities($item)
+     public function cities(Request $request, $id)
     {
-         try {
-            $country = Country::find($item);
-            if(is_null($country)){
+       try{
+            $item = Country::find($id);
+            if(is_null($item)){
                 return $this->responseMessage('error', 'Data tapılmadı ', null, 404, null);
             }
-            $items = $country->cities;
-            $items = $items->map(fn($it)=>
-                [
-                    "id"=>$it->id,
-                    "title"=>$it->title
-                ]
-            );
-
-            return $this->responseMessage('success', 'Uğurlu əməliyyat', $items, 404, null);
-
-        } catch (\Exception $e) {
+            $cities = $item->cities?->sortByDesc('id')->map(function($e){
+                return [
+                    'id'=>$e->id,
+                    'title'=>$e->title,
+                    'icon'=>url('storage/'.$e->icon)
+                ];
+            });
+            return $this->responseMessage('success', 'Uğurlu əməliyyat ', $cities, 200, null);
+        }catch (\Exception $e) {
             return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
         }
     }
-
 }

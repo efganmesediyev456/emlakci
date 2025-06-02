@@ -16,7 +16,7 @@ class HomeBanner extends BaseModel
     ];
 
     public $guarded = [];
-    public $translatedAttributes = ['title', 'description'];
+    public $translatedAttributes = ['title', 'description', 'district'];
 
     public function getImageUrlAttribute()
     {
@@ -26,4 +26,13 @@ class HomeBanner extends BaseModel
         
         return url('storage/'.$this->image);
     }
+
+    public function country(){
+        return $this->belongsTo(Country::class);
+    }
+
+      public function city(){
+        return $this->belongsTo(City::class);
+    }
+
 }

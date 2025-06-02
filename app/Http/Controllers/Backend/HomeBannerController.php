@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\FileUploadHelper;
 use App\Http\Requests\Backend\HomeBannerSaveRequest;
+use App\Models\Country;
 
 class HomeBannerController extends Controller
 {
@@ -25,7 +26,8 @@ class HomeBannerController extends Controller
 
     public function create()
     {
-        return view('backend.pages.home_banners.create');
+        $countries = Country::get();
+        return view('backend.pages.home_banners.create', compact('countries'));
     }
 
     public function store(HomeBannerSaveRequest $request)
@@ -49,7 +51,9 @@ class HomeBannerController extends Controller
 
     public function edit(HomeBanner $item)
     {
-        return view('backend.pages.home_banners.edit', compact('item'));
+        $countries=Country::get();
+        $cities = $item->country->cities;
+        return view('backend.pages.home_banners.edit', compact('item', 'countries', 'cities'));
     }
 
     public function update(HomeBannerSaveRequest $request, HomeBanner $item)

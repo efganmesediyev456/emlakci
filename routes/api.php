@@ -48,6 +48,7 @@ use App\Http\Controllers\Api\MortgageApiController;
 use App\Http\Controllers\Api\ContactInfoController;
 use App\Http\Controllers\Api\EstateController;
 use App\Http\Controllers\Api\FilterController;
+use App\Http\Controllers\Api\ApplyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -242,7 +243,6 @@ Route::post('/website-likes', [WebsiteLikeController::class, 'store']);
 
 
 
-
 //emlak
 
 //blog and news
@@ -251,15 +251,12 @@ Route::get('/blog-and-news/{slug}', [BlogAndNewsController::class,'single']);
 Route::get('/blog-and-other-news', [BlogAndNewsController::class,'others']);
 Route::get('/all-blog-and-news', [BlogAndNewsController::class,'getAllBlogs']);
 Route::get('/share-links', [VacancyApiController::class,'vacancyShareLinks']);
-
-
 //contact
 Route::get('/contact', [HomeController::class, 'getContact']);
 Route::post('/contact', [HomeController::class, 'contact']);
 Route::post('/faqs', [HomeController::class, 'getFaqs']);
 Route::post('/faqs', [AboutController::class, 'index']);
 Route::get('/advantages', [AdvantageController::class, 'index']);
-
 Route::post('/mortgage/calculate', [MortgageApiController::class, 'calculate']);
 Route::get('/site-settings', [SiteSettingController::class, 'index']);
 Route::get('/contact-infos', [ContactInfoController::class, 'index']);
@@ -268,5 +265,11 @@ Route::get('/estates', [EstateController::class, 'index']);
 Route::get('/type-purchases', [FilterController::class, 'typePurchases']);
 Route::get('/type-estates', [FilterController::class, 'typeEstates']);
 Route::get('/countries', [FilterController::class, 'countries']);
-Route::get('/country/{country}/cities/', [FilterController::class, 'cities']);
+Route::get('/country/{id}/cities', [FilterController::class, 'cities']);
+Route::post('/apply/purchase', [ApplyController::class, 'purchase']);
+Route::post('/apply/sale', [ApplyController::class, 'sale']);
+Route::post('/apply/rent', [ApplyController::class, 'rent']);
 Route::get('/banner-details', [HomeController::class,'getBannerDetails']);
+Route::get('/home-banner-detail', [HomeController::class,'getHomebannerDetail']);
+Route::get('/event-banner', [HomeController::class,'getEventBanner']);
+
