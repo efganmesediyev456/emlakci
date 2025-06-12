@@ -12,6 +12,7 @@ use App\Models\Country;
 use App\Models\GalleryPhoto;
 use App\Models\GalleryVideo;
 use App\Models\TypeEstate;
+use App\Models\Country;
 use App\Models\TypePurchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -47,9 +48,8 @@ class FilterController extends Controller
                 'icon'=>url('storage/'.$e->icon)
             ];
         });
-
-        return $this->responseMessage('success', 'Uğurlu əməliyyat ', $typeEstates, 200, null);
-       
+        
+        return $this->responseMessage('success', 'Uğurlu əməliyyat', $typeEstates, 404, null);
     }
 
     public function countries(Request $request)

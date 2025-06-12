@@ -268,12 +268,13 @@ Route::get('/country/{id}/cities', [FilterController::class, 'cities']);
 Route::post('/apply/purchase', [ApplyController::class, 'purchase']);
 Route::post('/apply/sale', [ApplyController::class, 'sale']);
 Route::post('/apply/rent', [ApplyController::class, 'rent']);
-
 Route::get('/banners', [HomeController::class,'getBannerDetails']);
 Route::get('/home-banner-detail', [HomeController::class,'getHomebannerDetail']);
 Route::get('/event-banner', [HomeController::class,'getEventBanner']);
 Route::get('/we-on-the-media', [HomeController::class,'getWeOnTheMedia']);
 Route::get('/we-on-the-media', [HomeController::class,'getWeOnTheMedia']);
-
 Route::get('/domestic/cities', [HomeController::class,'domesticCities']);
+Route::get('/banner-details', [HomeController::class,'getBannerDetails']);
+Route::get('/home-banner-detail', [HomeController::class,'getHomebannerDetail']);
+Route::get('/event-banner', [HomeController::class,'getEventBanner']);
 

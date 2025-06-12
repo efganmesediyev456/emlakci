@@ -81,7 +81,6 @@ use App\Http\Controllers\Backend\FormApplyController;
 use App\Http\Controllers\Backend\SubScriberController;
 
 
-
 Route::get("/login", [LoginController::class, 'login'])->name('.login');
 Route::post("/login", [LoginController::class, 'loginPost'])->name('.login.post');
 Route::post("/logout", [LoginController::class, 'logout'])->name('.logout');
@@ -773,6 +772,17 @@ Route::middleware("auth:admin")->group(function () {
     
      Route::group(['prefix' => 'subscribers', 'as' => '.subscribers'], function () {
         Route::get('/', [SubScriberController::class, 'index'])->name('.index');
+    });
+
+
+    Route::group(['prefix' => 'home-banner-detail', 'as' => '.home_banner_detail'], function () {
+        Route::get('/', [HomeBannerDetailController::class, 'index'])->name('.index');
+        Route::put('/{item}/update', [HomeBannerDetailController::class, 'update'])->name('.update');
+    });
+
+    Route::group(['prefix' => 'event-banner', 'as' => '.event_banner'], function () {
+        Route::get('/', [EventBannerController::class, 'index'])->name('.index');
+        Route::put('/{item}/update', [EventBannerController::class, 'update'])->name('.update');
     });
 
 });

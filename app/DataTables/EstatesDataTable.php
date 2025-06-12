@@ -25,7 +25,7 @@ class EstatesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($user) {
                 $html = '<div class="d-flex gap-1">';
-                $edit = '<a href="'.route('admin.estates.edit', $user->id).'" class="btn  btn-sm fs-5"><i class="fas fa-edit"></i></a>';
+                $edit = '<a href="' . route('admin.estates.edit', $user->id) . '" class="btn  btn-sm fs-5"><i class="fas fa-edit"></i></a>';
                 $delete = '<form action="' . route('admin.estates.destroy', $user->id) . '" method="POST" class="delete-form" onsubmit="return confirm(\'Əminsiniz silmək üçün?\')">
                         <input type="hidden" name="_token" value="' . csrf_token() . '">
                         <input type="hidden" name="_method" value="DELETE">

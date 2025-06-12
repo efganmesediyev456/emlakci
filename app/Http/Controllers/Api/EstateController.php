@@ -244,6 +244,13 @@ class EstateController extends Controller
         if ($request->has('updated_to')) {
             $query->where('updated_at', '<=', $request->updated_to);
         }
+
+        
+         if (request()->has('foreign') && request('foreign')!='') {
+            $query->whereHas('country',function($qq){
+                $qq->where('foreign', request('foreign'));
+            });
+        }
         
          if (request()->has('foreign') && request('foreign')!='') {
             $query->whereHas('country',function($qq){
@@ -265,10 +272,10 @@ class EstateController extends Controller
                 $q->whereIn('properties.id', $properties);
             });
         }
-        
-        if ($request->has('featured')) {
-            $query->where('featured', $request->featured);
-        }
+    
+
+     
+
     }
     
     private function applySorting(Builder $query, Request $request)

@@ -52,7 +52,7 @@ class HomeBannerController extends Controller
     public function edit(HomeBanner $item)
     {
         $countries=Country::get();
-        $cities = $item->country?->cities;
+        $cities = $item->country->cities;
         return view('backend.pages.home_banners.edit', compact('item', 'countries', 'cities'));
     }
 

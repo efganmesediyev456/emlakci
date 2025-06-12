@@ -158,10 +158,20 @@
                         <span key="t-vac-apps">Sayta abunə olanlar</span>
                     </a>
                 </li>
-            
 
+                <li>
+                    <a href="{{ route('admin.home_banner_detail.index') }}" class="waves-effect">
+                        <i class="bx bx-slider-alt"></i>
+                        <span key="t-properties">Home Banner Detalları</span>
+                    </a>
+                </li>
 
-
+                 <li>
+                    <a href="{{ route('admin.event_banner.index') }}" class="waves-effect">
+                        <i class="bx bx-slider-alt"></i>
+                        <span key="t-properties">Tədbir, reklam və.s üçün banner</span>
+                    </a>
+                </li>
              </ul>
          </div>
          <!-- Sidebar -->

@@ -31,8 +31,12 @@ class DatabaseSeeder extends Seeder
         // GalleryVideo::factory(100)->create();
         // Advertisement::factory(100)->create();
         // Service::factory(100)->create();
+<<<<<<< HEAD
         // $this->call(CountrySeeder::class);
         $this->call(EstateSeeder::class);
         // $this->call(OurOnTheMapSeeder::class);
+=======
+        $this->call(CountrySeeder::class);
+>>>>>>> eca9bca16c0a4a8572f7ec801a04f9a0ad6d1352
     }
 }

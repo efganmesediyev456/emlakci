@@ -203,7 +203,7 @@ class HomeController extends Controller
                 'image2'=>url('storage/'.$item->image2),
                 'first_payed'=>$item->first_payed,
                 'inside_credit'=>$item->inside_credit,
-                'phone'=>$item->phone,
+                'phone'=>$item->phone
             ];
         }catch (\Exception $e) {
             return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
