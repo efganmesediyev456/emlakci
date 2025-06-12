@@ -54,13 +54,22 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="description_{{$language->code}}" class="form-label">Haqqında {{$language->code}}</label>
                                     <textarea class="form-control" name="description[{{$language->code}}]"
                                         id="description_{{$language->code}}"
                                         placeholder=""
                                         value="">{{$item->translate($language->code)?->description}}</textarea>
+                                </div>
+                            </div>
+                               <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="district_{{$language->code}}" class="form-label">Rayon ({{$language->code}})</label>
+                                    <input type="text" class="form-control"
+                                        name="district[{{$language->code}}]"
+                                        id="district{{$language->code}}"
+                                        placeholder="Rayon daxil edin" value="{{  $item->translate($language->code)?->district }}">
                                 </div>
                             </div>
                         </div>
@@ -84,6 +93,33 @@
                             <input type="text" class="form-control" name="url" id="url" placeholder="URL daxil edin" value="{{ $item->url }}">
                         </div>
                     </div>
+
+                       <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="total_floors" class="form-label">Ölkə</label>
+                            <select  name="country_id" class="form-select" id="country_id">
+                                <option value="">Seçin</option>
+                                @foreach($countries as $country)
+                                    <option @selected($item->country_id == $country->id) value="{{ $country->id }}">{{$country->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="total_floors" class="form-label">Şəhər</label>
+                            <select  name="city_id" class="form-select" id="city_id">
+                                <option value="">Seçin</option>
+                                @if($cities)
+                                @foreach($cities as $city)
+                                    <option @selected($item->city_id == $city->id) value="{{ $city->id }}">{{$city->title}}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="row mt-2">
@@ -101,3 +137,33 @@
     </div>
 </div>
 @endsection
+
+
+@push("js")
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("#country_id").addEventListener("change", function () {
+            var country_id = this.value;
+
+            fetch("{{ route('admin.estates.cities') }}", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    country_id: country_id
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                 document.querySelector("#city_id").innerHTML = data.view
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        });
+    });
+</script>
+@endpush

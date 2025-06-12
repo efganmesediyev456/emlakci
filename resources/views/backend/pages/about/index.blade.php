@@ -51,6 +51,17 @@
                                 </div>
                             </div>
 
+
+                              <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="indicator_title1{{$language->code}}" class="form-label">Üstenlüklərimiz Başlıq {{$language->code}}</label>
+                                    <input type="text" class="form-control" name="our_advantages[{{$language->code}}]"
+                                        id="our_advantages{{$language->code}}"
+                                        placeholder="Üstenlüklərimiz Başlıq daxil edin"
+                                        value="{{$item->getTranslation($language->code)?->our_advantages}}">
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="indicator_title2{{$language->code}}" class="form-label">Göstəricilərimiz Başlıq {{$language->code}}</label>

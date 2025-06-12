@@ -30,7 +30,12 @@ class EstateController extends Controller
 
     public function index(EstatesDataTable $dataTable)
     {
-        return $dataTable->render('backend.pages.estates.index');
+         $countries = Country::get();
+        $cities = City::get();
+        $typeEstates = TypeEstate::get();
+        $typePurchases = TypePurchase::get();
+
+        return $dataTable->render('backend.pages.estates.index', compact('countries', 'cities', 'typeEstates', 'typePurchases'));
     }
 
     public function create()
@@ -84,7 +89,7 @@ class EstateController extends Controller
     {
         $type_estates = TypeEstate::get();
         $countries=Country::get();
-        $cities = $item->country->cities;
+        $cities = $item->country?->cities;
         $properties=Property::get();
         $type_purchases=TypePurchase::get();
         return view('backend.pages.estates.edit', compact('item', 'type_estates', 'countries', 'cities', 'properties','type_purchases'));

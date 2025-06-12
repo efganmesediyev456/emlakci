@@ -43,6 +43,10 @@ class EstateController extends Controller
         if ($request->has('max_price')) {
             $query->where('price', '<=', $request->max_price);
         }
+
+        if ($request->has('is_vip')) {
+            $query->where('is_vip', $request->is_vip);
+        }
         
         if ($request->has('price_range')) {
             $priceRange = explode('-', $request->price_range);
@@ -241,19 +245,20 @@ class EstateController extends Controller
             $query->where('updated_at', '<=', $request->updated_to);
         }
         
-        // Search in translated attributes (title, description, address, etc.)
+         if (request()->has('foreign') && request('foreign')!='') {
+            $query->whereHas('country',function($qq){
+                $qq->where('foreign', request('foreign'));
+            });
+        }
         if ($request->has('search')) {
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
-                $q->whereTranslationLike('title', "%{$searchTerm}%")
-                //   ->orWhereTranslationLike('description', "%{$searchTerm}%")
-                  ->orWhereTranslationLike('address', "%{$searchTerm}%")
-                  ->orWhereTranslationLike('location', "%{$searchTerm}%")
-                  ->orWhereTranslationLike('district', "%{$searchTerm}%");
+                $q->whereHas('translations', function($qq) use($searchTerm){
+                    $qq->where('locale',app()->getLocale())->where('title','like','%'.$searchTerm.'%');
+                });
             });
         }
         
-        // Properties filter (if estate has specific properties)
         if ($request->has('properties')) {
             $properties = is_array($request->properties) ? $request->properties : [$request->properties];
             $query->whereHas('properties', function($q) use ($properties) {
@@ -261,29 +266,9 @@ class EstateController extends Controller
             });
         }
         
-        // Featured/Premium filter (if you have such field)
         if ($request->has('featured')) {
-            // Assuming you might add this field later
             $query->where('featured', $request->featured);
         }
-        
-        // Only with images
-        if ($request->has('with_images_only') && $request->with_images_only) {
-            $query->whereHas('media');
-        }
-        
-        // Exclude specific IDs
-        if ($request->has('exclude_ids')) {
-            $excludeIds = is_array($request->exclude_ids) ? $request->exclude_ids : explode(',', $request->exclude_ids);
-            $query->whereNotIn('id', $excludeIds);
-        }
-        
-        // Include only specific IDs
-        if ($request->has('include_ids')) {
-            $includeIds = is_array($request->include_ids) ? $request->include_ids : explode(',', $request->include_ids);
-            $query->whereIn('id', $includeIds);
-        }
-
     }
     
     private function applySorting(Builder $query, Request $request)

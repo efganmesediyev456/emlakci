@@ -2,6 +2,7 @@
     <a href="{{ $editRoute }}" class="btn btn-sm btn-primary me-1">
         <i class="fa fa-edit"></i>
     </a>
+    @if($item->removeable)
     <form method="POST" action="{{ $deleteRoute }}" class="d-inline delete-form" onclick="return confirm('Silmək üçün əminsiniz?')">
         @csrf
         @method('DELETE')
@@ -9,4 +10,5 @@
             <i class="fa fa-trash"></i>
         </button>
     </form>
+    @endif
 </div>

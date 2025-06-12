@@ -19,6 +19,7 @@ class CountriesDataTable extends DataTable
                 return view('backend.pages.countries.actions', compact('item'), [
                     'editRoute' => route('admin.countries.edit', $item->id),
                     'deleteRoute' => route('admin.countries.destroy', $item->id),
+                    'item'=>$item
                 ]);
             })
            

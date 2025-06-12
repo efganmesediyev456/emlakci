@@ -30,30 +30,95 @@ class EstatesDataTable extends DataTable
                         <input type="hidden" name="_token" value="' . csrf_token() . '">
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-sm fs-5 text-danger delete-btn"><i class="fas fa-trash"></i></button>
-                    </form>';
-                    ;
-                $html.= $edit.$delete;
-                $html.='</div>';
+                    </form>';;
+                $html .= $edit . $delete;
+                $html .= '</div>';
                 return $html;
             })
             ->rawColumns(['action', 'status'])
-            ->addColumn('status', function($item) {
+            ->addColumn('status', function ($item) {
                 $checked = $item->status ? 'checked' : '';
                 return '<div class="form-check form-switch">
-                    <input class="form-check-input status-switch" type="checkbox" data-id="'.$item->id.'" '.$checked.'>
+                    <input class="form-check-input status-switch" type="checkbox" data-id="' . $item->id . '" ' . $checked . '>
                 </div>';
             })
-            ->addColumn('title', fn($item)=>$item->title)
-            ->addColumn('price', fn($item)=>$item->price ? number_format($item->price, 2) . ' AZN' : '-')
+            ->addColumn('title', fn($item) => $item->title)
+            ->addColumn('price', fn($item) => $item->price ? number_format($item->price, 2) . ' AZN' : '-')
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
+
     public function query(Estate $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->newQuery()->with(['country', 'city', 'typeEstate', 'typePurchase', 'properties']);
+
+        // dd(request()->all());
+       
+
+        // Ölkə filteri
+        if (request()->has('country_id') && request('country_id')) {
+            $query->where('country_id', request('country_id'));
+        }
+
+        // Şəhər filteri
+        if (request()->has('city_id') && request('city_id')) {
+            $query->where('city_id', request('city_id'));
+        }
+
+        // Əmlak növü filteri
+        if (request()->has('type_estate_id') && request('type_estate_id')) {
+            $query->where('type_estate_id', request('type_estate_id'));
+        }
+
+
+         if (request()->has('foreign') && request('foreign')!='') {
+            $query->whereHas('country',function($qq){
+                $qq->where('foreign', request('foreign'));
+            });
+        }
+
+        // Alış növü filteri
+        if (request()->has('type_purchase_id') && request('type_purchase_id')) {
+            $query->where('type_purchase_id', request('type_purchase_id'));
+        }
+
+        // Qiymət aralığı
+        if (request()->has('min_price') && request('min_price') !== '' && request('min_price')) {
+            $query->where('price', '>=', request('min_price'));
+        }
+        if (request()->has('max_price') && request('max_price') !== '' && request('max_price')) {
+            $query->where('price', '<=', request('max_price'));
+        }
+
+        // Sahə aralığı
+        if (request()->has('min_area') && request('min_area') && request('min_area') !== '') {
+            $query->where('area', '>=', request('min_area'));
+        }
+        if (request()->has('max_area') && request('max_area') !== '' && request('max_area')) {
+            $query->where('area', '<=', request('max_area'));
+        }
+
+        // Tarix aralığı
+        if (request()->has('start_date') && str_replace('\\', '', request('start_date'), )) {
+            $query->whereDate('created_at', '>=', str_replace('\\', '', request('start_date'), ));
+        }
+        if (request()->has('end_date') && str_replace('\\', '', request('end_date'), )) {
+            $query->whereDate('created_at', '<=', str_replace('\\', '', request('end_date'), ));
+        }
+
+        // Axtarış sözü
+        if (request()->has('search') && request('search')['value'] != '') {
+            $search = request('search')['value'];
+            $query->whereHas('translations', function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $query;
     }
 
     /**
@@ -64,9 +129,24 @@ class EstatesDataTable extends DataTable
         return $this->builder()
             ->setTableId('estates-table')
             ->columns($this->getColumns())
-            ->minifiedAjax()
+             ->minifiedAjax(route('admin.estates.index'), null, [
+                'country_id' => '$.fn.dataTable.util.escapeRegex($("#country_filter").val())',
+                'city_id' => '$.fn.dataTable.util.escapeRegex($("#city_filter").val())',
+                 'type_estate_id' => '$.fn.dataTable.util.escapeRegex($("#type_estate_filter").val())',
+                'type_purchase_id' => '$.fn.dataTable.util.escapeRegex($("#type_purchase_filter").val())',
+                'min_price' => '$.fn.dataTable.util.escapeRegex($("#min_price").val())',
+                'max_price' => '$.fn.dataTable.util.escapeRegex($("#max_price").val())',
+                'min_area' => '$.fn.dataTable.util.escapeRegex($("#min_area").val())',
+                'max_area' => '$.fn.dataTable.util.escapeRegex($("#max_area").val())',
+                'foreign' => '$.fn.dataTable.util.escapeRegex($("#foreign").val())',
+                'start_date' => '$.fn.dataTable.util.escapeRegex($("#start_date").val())',
+                'end_date' => '$.fn.dataTable.util.escapeRegex($("#end_date").val())'
+               
+            ],
+                
+             )
             ->dom('Blfrtip')
-            ->orderBy([0, 'desc']) 
+            ->orderBy([0, 'desc'])
             ->selectStyleSingle()
             ->parameters([
                 'pageLength' => 25, // 1 səhifədə 25 nəticə
@@ -86,12 +166,12 @@ class EstatesDataTable extends DataTable
                         }
                         if (data.length) {
                             $.ajax({
-                                url: '".route('admin.all.update-order')."',
+                                url: '" . route('admin.all.update-order') . "',
                                 type: 'POST',
                                 data: {
                                     _token: $('meta[name=\"csrf-token\"]').attr('content'),
                                     items: data,
-                                    model:'".addslashes(Estate::class)."'
+                                    model:'" . addslashes(Estate::class) . "'
                                 },
                                 success: function (response) {
                                     Swal.fire({
@@ -119,13 +199,13 @@ class EstatesDataTable extends DataTable
                                 var status = $(this).prop('checked') ? 1 : 0;
                                 
                                 $.ajax({
-                                    url: '".route('admin.update-status')."',
+                                    url: '" . route('admin.update-status') . "',
                                     type: 'POST',
                                     data: {
                                         _token: $('meta[name=\"csrf-token\"]').attr('content'),
                                         id: id,
                                         status: status,
-                                        model:'".addslashes(Estate::class)."'
+                                        model:'" . addslashes(Estate::class) . "'
                                     },
                                     success: function(response) {
                                         Swal.fire({
@@ -150,7 +230,7 @@ class EstatesDataTable extends DataTable
                             });
 
                 }",
-            ]) ->buttons(
+            ])->buttons(
                 Button::make('excel')->text('Excel-ə ixrac et'),
                 Button::make('csv')->text('CSV-ə ixrac et'),
                 Button::make('pdf')->text('PDF-ə ixrac et'),

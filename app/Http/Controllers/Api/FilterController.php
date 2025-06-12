@@ -33,6 +33,7 @@ class FilterController extends Controller
                 'icon'=>$e->icon ? url('storage/'.$e->icon) : null
             ];
         });
+
         return $this->responseMessage('success', 'Uğurlu əməliyyat ', $typePurchases, 200, null);
     }
 
@@ -73,9 +74,8 @@ class FilterController extends Controller
                 return [
                     'id'=>$e->id,
                     'title'=>$e->title,
-                    'icon'=>url('storage/'.$e->icon)
                 ];
-            });
+            })->values();
             return $this->responseMessage('success', 'Uğurlu əməliyyat ', $cities, 200, null);
         }catch (\Exception $e) {
             return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);

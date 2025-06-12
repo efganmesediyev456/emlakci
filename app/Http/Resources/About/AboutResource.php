@@ -42,6 +42,7 @@ class AboutResource extends JsonResource
             'foreign_advertisements_count' => $this->foreign_advertisements_count,
             'local_advertisements_count' => $this->local_advertisements_count,
             'yearly_activity' => $this->yearly_activity,
+            'our_advantages_title' => $this->our_advantages,
         ];
     }
 

@@ -41,6 +41,8 @@ class EstateResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'is_local'=>$this->country?->foreign==0 ? true : false,
+            'is_foreign'=>$this->country?->foreign==1 ? true : false,
             'title' => $this->title,
             'country_city_district'=>$this->country?->title.'-'.$this->city?->title.'-'.$this->district,
             'floor_info' => $this->floor . '/' . $this->total_floors,
@@ -85,7 +87,8 @@ class EstateResource extends JsonResource
             'is_new' => $this->is_new,
             'call_number' => $this->call_number,
             'whatsapp_number' => $this->whatsapp_number,
-            'map' => $this->map
+            'map' => $this->map,
+
         ];
     }
 }

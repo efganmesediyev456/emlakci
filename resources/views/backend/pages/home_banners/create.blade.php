@@ -11,7 +11,7 @@
                         <i class="fas fa-arrow-left"></i>
                         <span class="wmax">Geriyə qayıt</span>
                     </a>
-                </div>
+            </div>
             </div>
         </div>
         <div class="card-body">
@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="description_{{$language->code}}" class="form-label">Haqqında {{$language->code}}</label>
                                     <textarea class="form-control" name="description[{{$language->code}}]"
@@ -62,10 +62,24 @@
                                         value=""></textarea>
                                 </div>
                             </div>
+                              <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="district_{{$language->code}}" class="form-label">Rayon ({{$language->code}})</label>
+                                    <input type="text" class="form-control"
+                                        name="district[{{$language->code}}]"
+                                        id="district{{$language->code}}"
+                                        placeholder="Rayon daxil edin">
+                                </div>
+                            </div>
                         </div>
+
+                        
+
                     </div>
                     @endforeach
                 </div>
+
+                
 
                 <div class="row">
                     <div class="col-md-6">
@@ -80,6 +94,28 @@
                             <input type="text" class="form-control" name="url" id="url" placeholder="URL daxil edin">
                         </div>
                     </div>
+
+                      <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="total_floors" class="form-label">Ölkə</label>
+                            <select name="country_id" class="form-select" id="country_id">
+                                <option>Seçin</option>
+                                @foreach($countries as $country)
+                                    <option value="{{ $country->id }}">{{$country->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="total_floors" class="form-label">Şəhər</label>
+                            <select name="city_id" class="form-select" id="city_id">
+                                <option>Seçin</option>
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="row mt-2">
@@ -97,3 +133,33 @@
     </div>
 </div>
 @endsection
+
+
+@push("js")
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("#country_id").addEventListener("change", function () {
+            var country_id = this.value;
+
+            fetch("{{ route('admin.estates.cities') }}", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    country_id: country_id
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                 document.querySelector("#city_id").innerHTML = data.view
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        });
+    });
+</script>
+@endpush

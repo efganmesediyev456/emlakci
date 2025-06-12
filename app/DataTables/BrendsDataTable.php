@@ -52,7 +52,11 @@ class BrendsDataTable extends DataTable
      */
     public function query(Brend $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query=$model->newQuery();
+        if(request()->has('subcategory_id')){
+            $query->where('subcategory_id',request('subcategory_id'));
+        }
+        return $query ;
     }
 
     /**

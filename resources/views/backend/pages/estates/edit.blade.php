@@ -211,9 +211,11 @@
                             <label for="total_floors" class="form-label">Şəhər</label>
                             <select  name="city_id" class="form-select" id="city_id">
                                 <option>Seçin</option>
+                                @if($cities)
                                 @foreach($cities as $city)
                                     <option @selected($item->city_id == $city->id) value="{{ $city->id }}">{{$city->title}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -236,6 +238,15 @@
                                     <label class="form-check-label" for="mortgage">İpotekaya yararlı</label>
                                 </div>
                             </div>
+
+
+                              <div class="col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_vip" value="1" id="is_vip" {{$item->is_vip ? 'checked' : ''}}>
+                                    <label class="form-check-label" for="is_vip">Vip</label>
+                                </div>
+                            </div>
+
 
                              <div class="col-md-3">
                                 <div class="form-check">

@@ -1,22 +1,16 @@
 @extends('backend.layouts.layout')
-
 @section('content')
-
     <div class="container">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4>Tərcümələr</h4>
-
                 </div>
             </div>
             <div class="card-body">
                 <form action="{{route('admin.translations.store')}}" method="POST" id="saveForm" enctype="multipart/form-data">
                     @csrf
-
-
-
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <ul class="nav" id="myTab" role="tablist">
                         @foreach($languages as $lang)
                             <li class="nav-item" role="presentation">
                                 <button
@@ -33,16 +27,14 @@
                             </li>
                         @endforeach
                     </ul>
-
                     <div class="mb-3 mt-3">
                         <label for="key" class="form-label">Açar</label>
                         <input type="text" class="form-control" id="key" name="key" value="" placeholder="">
                     </div>
-
-                    <div class="tab-content mt-4" id="myTabContent">
+                    <div class="mt-4" id="">
                         @foreach($languages as $lang)
                             <div
-                                class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                class="tab-pane  {{ $loop->first ? 'show active' : '' }}"
                                 id="{{$lang->code}}"
                                 role="tabpanel"
                                 aria-labelledby="{{$lang->code}}-tab">
@@ -54,13 +46,10 @@
                             </div>
                         @endforeach
                     </div>
-
                     <!--<div class="mb-3">-->
                     <!--    <label for="filename" class="form-label">Qrup</label>-->
                     <!--    <input type="text" class="form-control" id="filename" name="filename" placeholder="" value="">-->
                     <!--</div>-->
-
-
                     <div class="row mt-2">
                         <div class="d-flex justify-content-end">
                             <div class="form-group">
@@ -75,5 +64,4 @@
             </div>
         </div>
     </div>
-
 @endsection

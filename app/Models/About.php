@@ -22,7 +22,8 @@ class About extends BaseModel
         'indicator_description',
         'description',
         'choose_why_desc',
-        'choose_why_title'
+        'choose_why_title',
+        'our_advantages',
     ];
 
     public function translations(): \Illuminate\Database\Eloquent\Relations\HasMany

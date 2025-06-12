@@ -14,8 +14,9 @@ class HomeBannerSaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             'url' => 'nullable|string|max:255',
+            "country_id"=>"required"
         ];
     }
 }

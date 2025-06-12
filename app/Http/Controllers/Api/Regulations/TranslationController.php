@@ -16,8 +16,8 @@ class TranslationController extends Controller
     public function index(Request $request){
         $query = LangTranslation::query();
 
-        if ($request->hasHeader('X-Accept-Language')) {
-            $languageCode = $request->header('X-Accept-Language');
+        if ($request->hasHeader('Accept-Language')) {
+            $languageCode = $request->header('Accept-Language');
             $query->where('locale', $languageCode);
         }
 

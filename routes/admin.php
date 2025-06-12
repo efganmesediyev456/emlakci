@@ -74,6 +74,11 @@ use App\Http\Controllers\Backend\TypeEstateController;
 use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\CityController;
 use App\Http\Controllers\Backend\ContactApplyController;
+use App\Http\Controllers\Backend\HomeBannerDetailController;
+use App\Http\Controllers\Backend\EventBannerController;
+use App\Http\Controllers\Backend\WeOnTheMediaController;
+use App\Http\Controllers\Backend\FormApplyController;
+use App\Http\Controllers\Backend\SubScriberController;
 
 
 
@@ -247,11 +252,7 @@ Route::middleware("auth:admin")->group(function () {
 
     Route::group(['prefix' => 'banner-details', 'as' => '.banner_details'], function () {
         Route::get('/', [BannerDetailController::class, 'index'])->name('.index');
-        Route::get('/create', [BannerDetailController::class, 'create'])->name('.create');
-        Route::post('/store', [BannerDetailController::class, 'store'])->name('.store');
-        Route::get('/{item}/edit', [BannerDetailController::class, 'edit'])->name('.edit');
         Route::put('/{item}/update', [BannerDetailController::class, 'update'])->name('.update');
-        Route::delete('/{item}', [BannerDetailController::class, 'delete'])->name('.destroy');
     });
 
    
@@ -717,13 +718,61 @@ Route::middleware("auth:admin")->group(function () {
     });
 
 
-    Route::group(['prefix' => 'cities', 'as' => '.cities'], function () {
-        Route::get('/', [ApplyController::class, 'index'])->name('.index');
-        Route::get('/create', [ApplyController::class, 'create'])->name('.create');
-        Route::post('/store', [ApplyController::class, 'store'])->name('.store');
-        Route::get('/{item}/edit', [ApplyController::class, 'edit'])->name('.edit');
-        Route::put('/{item}/update', [ApplyController::class, 'update'])->name('.update');
-        Route::delete('/{item}', [ApplyController::class, 'delete'])->name('.destroy');
+    // Route::group(['prefix' => 'cities', 'as' => '.cities'], function () {
+    //     Route::get('/', [ApplyController::class, 'index'])->name('.index');
+    //     Route::get('/create', [ApplyController::class, 'create'])->name('.create');
+    //     Route::post('/store', [ApplyController::class, 'store'])->name('.store');
+    //     Route::get('/{item}/edit', [ApplyController::class, 'edit'])->name('.edit');
+    //     Route::put('/{item}/update', [ApplyController::class, 'update'])->name('.update');
+    //     Route::delete('/{item}', [ApplyController::class, 'delete'])->name('.destroy');
+    // });
+
+
+    Route::group(['prefix' => 'home-banner-detail', 'as' => '.home_banner_detail'], function () {
+        Route::get('/', [HomeBannerDetailController::class, 'index'])->name('.index');
+        Route::put('/{item}/update', [HomeBannerDetailController::class, 'update'])->name('.update');
+    });
+
+    Route::group(['prefix' => 'event-banner', 'as' => '.event_banner'], function () {
+        Route::get('/', [EventBannerController::class, 'index'])->name('.index');
+        Route::put('/{item}/update', [EventBannerController::class, 'update'])->name('.update');
+    });
+
+
+
+    Route::group(['prefix' => 'we_on_the_media', 'as' => '.we_on_the_media'], function () {
+        Route::get('/', [WeOnTheMediaController::class, 'index'])->name('.index');
+        Route::get('/create', [WeOnTheMediaController::class, 'create'])->name('.create');
+        Route::post('/store', [WeOnTheMediaController::class, 'store'])->name('.store');
+        Route::get('/{item}/edit', [WeOnTheMediaController::class, 'edit'])->name('.edit');
+        Route::put('/{item}/update', [WeOnTheMediaController::class, 'update'])->name('.update');
+        Route::delete('/{item}', [WeOnTheMediaController::class, 'delete'])->name('.destroy');
+    });
+    
+    Route::group(['prefix' => '/forms/purchase-form', 'as' => '.forms'], function () {
+        Route::get('/', [FormApplyController::class, 'purchaseForm'])->name('.purchaseForm');
+        Route::get('/{purchaseForm?}', [FormApplyController::class, 'purchaseFormShow'])->name('.purchaseFormShow');
+        Route::delete('/delete/{purchaseForm}', [FormApplyController::class, 'purchaseFormDelete'])->name('.purchaseFormDelete');
+
+
+    
+    });
+
+    Route::group(['prefix' => '/forms/sale-form', 'as' => '.forms'], function () {
+        Route::get('/', [FormApplyController::class, 'saleForm'])->name('.saleForm');
+        Route::get('/{saleForm?}', [FormApplyController::class, 'saleFormShow'])->name('.saleFormShow');
+        Route::delete('/delete/{saleForm}', [FormApplyController::class, 'saleFormDelete'])->name('.saleFormDelete');
+    });
+
+     Route::group(['prefix' => '/forms/rent-form', 'as' => '.forms'], function () {
+        Route::get('/', [FormApplyController::class, 'rentForm'])->name('.rentForm');
+        Route::get('/{rentForm?}', [FormApplyController::class, 'rentFormShow'])->name('.rentFormShow');
+        Route::delete('/delete/{rentForm}', [FormApplyController::class, 'rentFormDelete'])->name('.rentFormDelete');
+    });
+    
+    
+     Route::group(['prefix' => 'subscribers', 'as' => '.subscribers'], function () {
+        Route::get('/', [SubScriberController::class, 'index'])->name('.index');
     });
 
 });

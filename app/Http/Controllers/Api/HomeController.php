@@ -10,19 +10,23 @@ use App\Http\Resources\BannerDetailResource;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\BlogAndNewsResource;
 use App\Http\Resources\BrendResource;
+use App\Http\Resources\CityResource;
 use App\Http\Resources\FaqResource;
+use App\Http\Resources\HomeBannerResource;
 use App\Http\Resources\ImportantLinkResource;
 use App\Http\Resources\OurOnMapResource;
 use App\Http\Resources\Products\CategoryResource;
 use App\Http\Resources\Products\ProductResource;
 use App\Http\Resources\SocialLinkResource;
 use App\Http\Resources\TextBookResource;
+use App\Http\Resources\WeOnTheMediaResource;
 use App\Models\Advertisement;
 use App\Models\Banner;
 use App\Models\BlogNew;
 use App\Models\Brend;
 use App\Models\Category;
 use App\Models\ContactApply;
+use App\Models\Country;
 use App\Models\EducationalRegion;
 use App\Models\Faq;
 use App\Models\ImportantLink;
@@ -30,9 +34,13 @@ use App\Models\Language;
 use App\Models\Partner;
 use App\Models\Product;
 use App\Models\BannerDetail;
+use App\Models\EventBanner;
+use App\Models\HomeBanner;
+use App\Models\HomeBannerDetail;
 use App\Models\SiteSetting;
 use App\Models\SocialLink;
 use App\Models\Textbook;
+use App\Models\WeOnTheMedia;
 use Illuminate\Http\Request;
 use App\Models\OurOnMap;
 use DB;
@@ -173,5 +181,62 @@ class HomeController extends Controller
           
             return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
         }
+    }
+
+
+    public function getBannerDetails(Request $request){
+        try{
+            $items = HomeBanner::status()->order()->get();
+            $items = HomeBannerResource::collection($items);
+            return $items;
+        }catch (\Exception $e) {
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
+
+
+    public function getHomebannerDetail(Request $request){
+        try{
+            $item = HomeBannerDetail::first();
+            return [
+                'image1'=>url('storage/'.$item->image1),
+                'image2'=>url('storage/'.$item->image2),
+                'first_payed'=>$item->first_payed,
+                'inside_credit'=>$item->inside_credit,
+                'phone'=>$item->phone,
+            ];
+        }catch (\Exception $e) {
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
+
+
+
+      public function getEventBanner(Request $request){
+        try{
+            $item = EventBanner::first();
+            return [
+                'image'=>url('storage/'.$item->image),
+                'title'=>$item->title,
+                'subtitle'=>$item->subtitle,
+                'description'=>$item->description,
+                'url'=>$item->url,
+            ];
+        }catch (\Exception $e) {
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
+
+    public function getWeOnTheMedia(Request $request){
+        try{
+             $items = WeOnTheMedia::status()->order()->get()->take(12);
+             return WeOnTheMediaResource::collection($items);
+        }catch (\Exception $e) {
+            return $this->responseMessage('error', 'System xətası ' . $e->getMessage(), null, 500, null);
+        }
+    }
+    public function domesticCities(Request $request){
+        $country = Country::where("removeable",false)->where("foreign", false)->first();
+        return CityResource::collection($country->cities);
     }
 }
